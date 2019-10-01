@@ -31,46 +31,46 @@ void setup() {
   encoder = new ClickEncoder(ENCODER_CLK, ENCODER_DT, ENCODER_SW); // Initializes the rotary encoder with the mentioned pins
 
   pinMode (ENCODER_CLK,INPUT);
-   pinMode (ENCODER_DT,INPUT);
+  pinMode (ENCODER_DT,INPUT);
+  //pinMode(ENCODER_SW, INPUT);
   
 
 //rotary.setDebounceDelay(100);
   Timer1.initialize(1000); // Initializes the timer, which the rotary encoder uses to detect rotation
   Timer1.attachInterrupt(timerIsr); 
   value = 0;
-  last = -1;
-  //aLastState = digitalRead(ENCODER_CLK);  
+  last = -1; 
 } 
 
 void loop() {  
   //Serial.println(encoder->getValue());
-//  value += encoder->getValue();
-//  
-//  // This part of the code is responsible for the actions when you rotate the encoder
-//  if (value != last) { // New value is different than the last one, that means to encoder was rotated
-//    if(last<value) // Detecting the direction of rotation
-//      Consumer.write(MEDIA_VOLUME_UP); // Replace this line to have a different function when rotating counter-clockwise
-//      else
-//      Consumer.write(MEDIA_VOLUME_DOWN); // Replace this line to have a different function when rotating clockwise
-//    last = value; // Refreshing the "last" varible for the next loop with the current value
-//    Serial.print("Encoder Value: "); // Text output of the rotation value used manily for debugging (open Tools - Serial Monitor to see it)
-//    Serial.println(value);
+  value += encoder->getValue();
+  
+  // This part of the code is responsible for the actions when you rotate the encoder
+  if (value != last) { // New value is different than the last one, that means to encoder was rotated
+    if(last<value) // Detecting the direction of rotation
+      Consumer.write(MEDIA_VOLUME_UP); // Replace this line to have a different function when rotating counter-clockwise
+      else
+      Consumer.write(MEDIA_VOLUME_DOWN); // Replace this line to have a different function when rotating clockwise
+    last = value; // Refreshing the "last" varible for the next loop with the current value
+    Serial.print("Encoder Value: "); // Text output of the rotation value used manily for debugging (open Tools - Serial Monitor to see it)
+    Serial.println(value);
+  }
+
+//MÁSODIK MŰKÖDŐ MEGOLDÁS!!!
+//  byte i;
+//  // 0 = not turning, 1 = CW, 2 = CCW
+//  i = rotary.rotate();
+//
+//  if ( i == 1 ) {
+//    Serial.println("CW");
+//    Consumer.write(MEDIA_VOLUME_UP);
 //  }
-//Serial.println(digitalRead(ENCODER_CLK));
-//Serial.println(digitalRead(ENCODER_DT));
-byte i;
-  // 0 = not turning, 1 = CW, 2 = CCW
-  i = rotary.rotate();
-
-  if ( i == 1 ) {
-    Serial.println("CW");
-    Consumer.write(MEDIA_VOLUME_UP);
-  }
-
-  if ( i == 2 ) {
-    Serial.println("CCW");
-    Consumer.write(MEDIA_VOLUME_DOWN);
-  }
+//
+//  if ( i == 2 ) {
+//    Serial.println("CCW");
+//    Consumer.write(MEDIA_VOLUME_DOWN);
+//  }
   
 
   // This next part handles the rotary encoder BUTTON
